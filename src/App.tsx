@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [value, setValue] = useState('');
+  const [errormessage, setErrormessage] = useState(false)
+
+  const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const re = /^[0-9\b]+$/;
+    if (e.currentTarget.value === '' || re.test(e.currentTarget.value)) {
+      setValue(e.currentTarget.value)
+      setErrormessage(false)
+    } else {
+      setErrormessage(true)
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="content">
+      <span className='inputLabel'>Enter American Zip Code</span>
+      <input className="inputField" value={value} onChange={handleInput} placeholder="" />
+      <span className={errormessage ? 'inputError' : 'inputErrorNone'}>Only numbers are allowed</span>
     </div>
   );
 }
